@@ -1,0 +1,18 @@
+{% extends "header.html" %}
+{% block body %}
+<body>
+    <div class="container">
+        <h1 class="text-center">NEW Item</h1>
+	<div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" placeholder="Title" name="title">
+	</div>
+        <br>
+        <br>
+        <div class="form-group">
+            <label for="title">Description</label>
+            <input type="text" class="form-control" rows="15" placeholder="Description" name="description">
+	</div>
+    </div>
+</body>
+{% endblock %}

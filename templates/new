@@ -1,0 +1,6 @@
+{% extends "header.html" %}
+{% block body %}
+<body>
+    <div class="container">
+        <h1 class="text-center">NEW Item</h1>
+        <input type="text" class="form-control" placeholder="Text input">
