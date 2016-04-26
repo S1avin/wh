@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 #from dbconnect import connection
-#from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from wtforms import Form, BooleanField, TextField, PasswordField, validators
 #from passlib.hash import sha256_crypt
 #from MySQLdb import escape_string as thwart
 #import gc
@@ -71,7 +71,7 @@ def updatelocationPage():
     paragraph = ["You can update any location here"]
 
     return render_template("index.html", title=title, paragraph=paragraph)
-'''
+
 @app.route('/login/', methods=["GET","POST"])
 def login_page():
 
@@ -86,8 +86,8 @@ def login_page():
             #flash(attempted_username)
             #flash(attempted_password)
 
-            if attempted_username == "admin" and attempted_password == "password":
-                return redirect(url_for('dashboard'))
+            if attempted_username == "Lister" and attempted_password == "1":
+                return redirect(url_for('dashboard_page'))
 				
             else:
                 error = "Invalid credentials. Try Again."
@@ -95,9 +95,16 @@ def login_page():
         return render_template("login.html", error = error)
 
     except Exception as e:
-        #flash(e)
+        flash(e)
         return render_template("login.html", error = error)  
-'''
+	 
+
+
+@app.route('/dashboard/')
+def dashboard_page():
+    return render_template("dashboard.html")
+
+
 '''
 class RegistrationForm(Form):
     username = TextField('Username', [validators.Length(min=4, max=20)])
