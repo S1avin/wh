@@ -1,16 +1,27 @@
-{% extends "header.html" %}
-{% block body %}
-<body>
-	<div class="container">
-		<br>
-		<h4>Please Login:</h4>
-		<br>
-		<form action="" class="form-inline" method="post">
-			<input type="text" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">
-			<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">
-			<input class="btn btn-default" type="submit" value="Login">
-		</form>
-	<p>{{error}}</p>
-	</div>
+<html>
+<link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='bootstrap.min.css') }}">
+<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+<body class = "body">
+<nav class="navbar navbar-default" role="navigation">
+<div class="container container-table">
+    <div class="ow vertical-center-row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Sign in</h1>
+                <form action="/login" class="form-inline" method="post">
+                <input type="text" class="form-control" placeholder="Username" name="username" value="{{request.form.username}}">
+                <input type="password" class="form-control" placeholder="Password" name="password" value="{{request.form.password}}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                    Sign in</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{error}}
 </body>
-{% endblock %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type = "text/javascript" src = "/static/bootstrap.min.js"></script>
+</nav>
+</html>
+

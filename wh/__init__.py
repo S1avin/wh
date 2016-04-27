@@ -1,77 +1,95 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 #from dbconnect import connection
 from wtforms import Form, BooleanField, TextField, PasswordField, validators
+from functools import wraps
 #from passlib.hash import sha256_crypt
 #from MySQLdb import escape_string as thwart
 #import gc
  
 app = Flask(__name__)
 
-@app.route('/')
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('homepage'))
+
+    return wrap
+
+
+@app.route('/', methods=["GET", "POST"])
+
 def homepage():
-
-    title = "Empty page"
-    paragraph = ["Nothing here right now"]
-
+    error = ''
     try:
-        return render_template("index.html", title = title, paragraph=paragraph)
+        if request.method == "POST":
+		
+            attempted_username = request.form['username']
+            attempted_password = request.form['password']
+
+            #flash(attempted_username)
+            #flash(attempted_password)
+
+            if attempted_username == "Lister" and attempted_password == "1":
+		session['logged_in'] = True
+                return redirect(url_for('dashboard_page'))
+				
+            else:
+                error = "Invalid credentials. Try Again."
+
+        return render_template("index.html", error = error)
+
     except Exception as e:
-        return str(e)
+        flash(e)
+        return render_template("index.html", error = error) 
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html")
 
+
+@app.route('/dashboard/')
+@login_required
+def dashboard_page():
+    return render_template("dashboard.html")
+
+
 @app.route('/new')
 def nawpage():
-
-    title = "Add new Item"
-    paragraph = ["Here will be some input boxes."]
-
-    return render_template("new.html", title=title, paragraph=paragraph)
+    return render_template("new.html")
 
 
 @app.route('/update')
 def updatePage():
-
-    title = "update"
-    paragraph = ["update"]
-
-    return render_template("index.html", title=title, paragraph=paragraph)
+    return render_template("index.html")
 
 
 @app.route('/update/title')
 def updatetitlePage():
+    return render_template("index.html")
 
-    title = "update title"
-    paragraph = ["You can update any title here"]
-
-    return render_template("index.html", title=title, paragraph=paragraph)
 
 @app.route('/update/price')
 def updatepricePage():
-
-    title = "update price"
-    paragraph = ["You can update any price here"]
-
-    return render_template("index.html", title=title, paragraph=paragraph)
+    return render_template("index.html")
 
 @app.route('/update/description')
 def updatedescriptionPage():
+    return render_template("index.html")
 
-    title = "update description"
-    paragraph = ["You can update any description here"]
-
-    return render_template("index.html", title=title, paragraph=paragraph)
 
 @app.route('/update/location')
 def updatelocationPage():
+    return render_template("index.html")
 
-    title = "update location"
-    paragraph = ["You can update any location here"]
 
-    return render_template("index.html", title=title, paragraph=paragraph)
 
+
+'''
 @app.route('/login/', methods=["GET","POST"])
 def login_page():
 
@@ -100,12 +118,8 @@ def login_page():
 	 
 
 
-@app.route('/dashboard/')
-def dashboard_page():
-    return render_template("dashboard.html")
 
 
-'''
 class RegistrationForm(Form):
     username = TextField('Username', [validators.Length(min=4, max=20)])
     email = TextField('Email Address', [validators.Length(min=6, max=50)])
