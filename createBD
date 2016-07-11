@@ -1,0 +1,20 @@
+import sqlite3 as lite
+con = lite.connect('item.db')
+with con:
+    cur = con.cursor()
+    cur.execute("DROP TABLE IF EXISTS item")
+    cur.execute("""CREATE TABLE item
+                    (Id INT PRIMARY KEY,
+                     Name TEXT,
+                     Description TEXT,
+                     Price_Start INT,
+                     Price_End INT,
+                     Price_Now Int,
+                     Data_Start TEXT,
+                     Data_End TEXT,
+                     Status TEXT,
+                     Location INT,
+                     Shipping TEXT)
+               """)
+
+
